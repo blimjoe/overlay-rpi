@@ -13,24 +13,23 @@ RESTRICT="mirror"
 
 S=${WORKDIR}
 
-#FW_REV="stable"
-#FW_REV="72b44d850dc8c2307cf0dccea00928702e16bc12"
-#SRC_URI="https://github.com/haggster66/firmware/archive/${FW_REV}.zip -> ${P}.zip"
-#SRC_URI="https://github.com/raspberrypi/firmware/archive/${FW_REV}.zip -> ${P}.zip"
-#SRC_URI="https://github.com/raspberrypi/firmware/archive/stable.zip -> stable_firmware.zip"
-#SRC_URI="https://github.com/raspberrypi/firmware/archive/72b44d850dc8c2307cf0dccea00928702e16bc12.zip -> firmware.zip"
-#SRC_URI="https://git.flintos.xyz/RPI/firmware/repository/archive.zip?ref=master -> ${P}.zip"
-SRC_URI="https://github.com/raspberrypi/firmware/archive/22de0bb68d34fd210ba9d086c6a1fc5e90f0bfbb.zip -> firmware-44.zip"
+SRC_URI="
+	https://github.com/raspberrypi/firmware/archive/22de0bb68d34fd210ba9d086c6a1fc5e90f0bfbb.zip -> firmware-44.zip
+	https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.bin
+	https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm80211/brcm/brcmfmac43430-sdio.txt"
 
 src_install() {
+	# Install boot related.
 	cd "firmware-22de0bb68d34fd210ba9d086c6a1fc5e90f0bfbb/boot"
 	insinto /firmware/rpi
-	#insinto /boot
-	#doins fixup.dat start.elf bootcode.bin
 	doins *.dtb *.bin *.linux LICENCE.* *.linux *.elf *.dat
 
 	cd "overlays"
 	insinto /firmware/rpi/overlays
-	#insinto /boot/overlays
 	doins *.*
+
+	# Install WiFi firmware.
+	insinto /lib/firmware/brcm
+	doins ${DISTDIR}/brcmfmac43430-sdio.bin
+	doins ${DISTDIR}/brcmfmac43430-sdio.txt
 }
