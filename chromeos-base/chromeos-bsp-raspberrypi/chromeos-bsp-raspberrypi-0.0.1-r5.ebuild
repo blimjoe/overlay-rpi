@@ -19,4 +19,10 @@ S=${WORKDIR}
 
 src_install() {
 	udev_dorules "${FILESDIR}/10-vchiq-permissions.rules"
+
+	insinto /etc/sysctl.d
+	doins ${FILESDIR}/99-rpi-tuning.conf
+
+	insinto /etc/init
+	doins ${FILESDIR}/rpi-tuning.conf
 }
