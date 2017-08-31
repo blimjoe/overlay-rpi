@@ -190,14 +190,14 @@ It make take 10 to over 30 minutes depends on your Internet connection speed and
 
 The chroot environment is located under the ```/project/chromiumos-R56/chroot``` directory.
 
-Let's exist the chroot first as we need to do some customization before move on. Type ```exit``` or ```Ctrl + D``` to exit from the chroot shell.
+Let's exit from the chroot first as we need to do some customizations before move on. Type ```exit``` or ```Ctrl + D``` to exit from the chroot shell.
 
-Usually the chroot only need to be created once and can be used to build a board many times or build different boards. It very rarely need to be removed/re-created.
+Usually the chroot only needs to be created once and can be used to build a board many times or build different boards. It very rarely need to be removed/re-created.
 
 ### Delete the chroot
 If you would like to remove the chroot and re-create it from scratch, don't delete the ```chroot``` directory directly. As there could be directories from the host OS bind mounted in the chroot, a ```rm chroot``` command could actually remove files from your host OS undesirably.
 
-The correct way to remove the chroot is by using below command.
+The correct way to remove the chroot is by using below commands.
 
 ```
 $ cd /project/chromiumos-R56
@@ -207,7 +207,7 @@ $ cros_sdk --delete
 ## Setup bind mount directories for chroot
 Programs running inside the chroot will not be able to access files outside of the chroot. One way to circumvent this is to bind mount those files into a directory inside the chroot.
 
-When entering the Chromium OS chroot environment, a file named ```.local_mounts``` will be checked and directories listed in it will be bind mounted inside the chroot. All we need to do is to create this file in the right place and put necessary contents in.
+When entering the Chromium OS chroot environment, a file named ```.local_mounts``` will be checked and directories listed in it will be bind mounted inside the chroot. All we need to do is to create this file in the right place and put necessary contents in, by using below command.
 
 ```
 $ echo "/project" > /project/chromiumos-R56/src/scripts/.local_mounts
@@ -215,7 +215,7 @@ $ echo "/project" > /project/chromiumos-R56/src/scripts/.local_mounts
 
 Now, after entered the chroot, a ```/project``` directory will exsit in the chroot and its content is the same as the ```/project``` directory in the host OS, as it actually is bind mounted from the host OS.
 
-If we don't do this, the ```/project/chromiumos-R56/src/overlays/overlay-rpi``` symbolic link will not be accessible, as the top directory(```/project```) it points to doesn't exist in the chroot.
+If we don't do this, the ```/project/chromiumos-R56/src/overlays/overlay-rpi``` symbolic link will not be accessible, as the top directory (```/project```) it points to doesn't exist in the chroot.
 
 ## Enter the chroot
 Now we can enter the chroot.
@@ -227,19 +227,19 @@ $ cros_sdk
 
 It is the same command used to create the chroot. It creates the chroot if one does not exist, and enters the chroot if there is already one.
 
-And we can check whether above ```.local_mouts``` setup is done correctly. Notice that the ```(cr) $``` prefix denotes that these commands are run in the chroot.
+And we can check whether above ```.local_mouts``` setup was done correctly. Notice that the ```(cr) $``` prefix denotes these commands should be run in the chroot.
 
 ```
 (cr) $ ls /project                      # You should be able to see the same content as in host OS.
 (cr) $ ls ../overlays/overlay-rpi/      # You should be able to see the content of this repo.
 ```
 
-Move on if it works well. If not, check and make sure you setup ```.local_mounts``` correctly.
+Move on if it works well. If not, check and make sure you set up ```.local_mounts``` correctly.
 
 ## Setup Raspberry Pi board
 In the Chromium OS terminology, a board refers to a class of computer platform with distinct hardware configurations. The board will be used as a target in the process of building software packages and disk image for that specific computer platform.
 
-There are many boards exist in the Chromium OS code base. They are either development platform or real selling product running Chrome OS, such as Chromebooks you can buy from many vendors.
+There are many boards exist in the Chromium OS code base. They are either development platforms or real selling products running Chrome OS, such as Chromebooks you can buy from many vendors.
 
 The Chromium OS project utilizes the Portage package management system from Gentoo Linux. Each board lives in its own "overlay", which holds distinct build configuration, system configurations, collection of software packages, system services, disk image customizations etc. for that board.
 
@@ -274,17 +274,17 @@ Now it time to build all software packages for the rpi board.
 It may take hours depends on your processor power, your memory size, your disk speed and your Internet bandwidth. On a decent machine with 4 cores 8 threads, 16GB memory, files on regular HDD, and 100Mb broadband, it takes about 5 to 6 hours for the command to finish.
 
 ### When interrupted
-The build process is incremental. If it gets interrupted for any reason, you can always rerun the same command and it will resume the build instead of rebuild from scratch.
+The build process is incremental. If it gets interrupted for any reason, you can always rerun the same ```build_packages``` command and it will resume the build instead of rebuild from scratch.
 
 ### Read the output
-The build_packages command throw out a lot of information on the console. Fortunately those information are very well organized.
+The ```build_packages``` command throw out a lot of information on the console. Fortunately those information are very well organized.
 
 * Red text: these are error messages and very likely will cause the build process to break.
 * Green text: these are useful messages printed by the build script itself. They are useful when debugging problem.
 * White text: these are regular information that mostly are printed by the commands called in the build script. They provide more details about the build process thus are also useful for debugging.
 
 ### Read the logs
-Most time the build_packages command spends on is running the ```emerge``` commands to build, install and pack those hundress of software packages required by the overlay. The ```emerge``` command is from the portage system of Gentoo Linux.
+Most time the ```build_packages``` command spends on is running the ```emerge``` commands, to build, install and pack those hundress of software packages required by the overlay. The ```emerge``` command is from the portage system of Gentoo Linux.
 
 The ```emerge``` command saves the output of its building, installation and packing process into log files. These files are extremely useful if there is failure when building some package. Those log files are located under the ```/build/rpi/tmp/portage/logs``` directory of the chroot. They are plain text files so can be viewed by tools like ```less```, or ```more```, or editors such as ```vim```.
 
@@ -301,7 +301,7 @@ It may take 10 to 30 minutes, mainly depends on the speed of your disk. It is mu
 ### Find your image
 After the command finished successfully, you will have disk images generated, saved under ```/mnt/host/source/src/build/images/rpi/``` directory in the chroot, or ```/project/chromiumos-R56/src/build/images/rpi``` in the host OS. These two are the same directory, just bind mounted in the chroot.
 
-Each invoke of the build_image command will create a directory names similar to ```R56-9000.104.<date time>-a1``` under above directory. There is a symlink named ```latest``` under above directory, that always point the image directory of the last successful build.
+Each invoke of the build_image command will create a directory named similar to ```R56-9000.104.<date time>-a1``` under above directory. There is a symlink named ```latest``` under above directory, that always point to the image directory of the last successful build.
 
 The disk image is usually named ```chromiumos_image.bin```, under abovementioned directory. So full path to the latest image is
 
@@ -332,10 +332,10 @@ First plug the SD card into the box used to build the image and has the chroot. 
 (cr) $ cros flash usb:// rpi/latest
 ```
 
-This asks to write the latest disk image to USB removable media. A list of USB removable media will be present, with index number prefixed. You can select which USB drive to write to by type in the index number when prompted.
+This asks to write the latest disk image to USB removable media. A list of USB removable media will be presented, with index number prefixed. You can select which USB drive to write to by type in the index number when prompted.
 
 ## Boot from the SD card
-After the disk image is successfully written to the SD card, plug it to the Raspberry Pi and boot it as usual. After a few seconds you will see a Chromium logo, later on it will boot into GUI mode and the first time setup screen will pop up for you to configure the system and login.
+After the disk image is successfully written to the SD card, plug it into the Raspberry Pi and boot it as usual. After a few seconds you will see a Chromium logo, later on it will boot into GUI mode and the first time setup screen will pop up for you to configure the system and login.
 
 # More information
 [Chromium OS Developer Guide](http://www.chromium.org/chromium-os/developer-guide). This is the official source of how to build Chromium OS
