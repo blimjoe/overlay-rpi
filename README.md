@@ -190,7 +190,7 @@ It make take 10 to over 30 minutes depends on your Internet connection speed and
 
 The chroot environment is located under the ```/project/chromiumos-R56/chroot``` directory.
 
-Let's exit from the chroot first as we need to do some customizations before move on. Type ```exit``` or ```Ctrl + D``` to exit from the chroot shell.
+Let's exit from the chroot first as we need to do some customization before move on. Type ```exit``` or ```Ctrl + D``` to exit from the chroot shell.
 
 Usually the chroot only needs to be created once and can be used to build a board many times or build different boards. It very rarely need to be removed/re-created.
 
@@ -213,7 +213,7 @@ When entering the Chromium OS chroot environment, a file named ```.local_mounts`
 $ echo "/project" > /project/chromiumos-R56/src/scripts/.local_mounts
 ```
 
-Now, after entered the chroot, a ```/project``` directory will exsit in the chroot and its content is the same as the ```/project``` directory in the host OS, as it actually is bind mounted from the host OS.
+Now, after entered the chroot, a ```/project``` directory will exist in the chroot and its content is the same as the ```/project``` directory in the host OS, as it actually is bind mounted from the host OS.
 
 If we don't do this, the ```/project/chromiumos-R56/src/overlays/overlay-rpi``` symbolic link will not be accessible, as the top directory (```/project```) it points to doesn't exist in the chroot.
 
@@ -227,7 +227,7 @@ $ cros_sdk
 
 It is the same command used to create the chroot. It creates the chroot if one does not exist, and enters the chroot if there is already one.
 
-And we can check whether above ```.local_mouts``` setup was done correctly. Notice that the ```(cr) $``` prefix denotes these commands should be run in the chroot.
+And we can check whether above ```.local_mounts``` setup was done correctly. Notice that the ```(cr) $``` prefix denotes these commands should be run in the chroot.
 
 ```
 (cr) $ ls /project                      # You should be able to see the same content as in host OS.
@@ -241,7 +241,7 @@ In the Chromium OS terminology, a board refers to a class of computer platform w
 
 There are many boards exist in the Chromium OS code base. They are either development platforms or real selling products running Chrome OS, such as Chromebooks you can buy from many vendors.
 
-The Chromium OS project utilizes the Portage package management system from Gentoo Linux. Each board lives in its own "overlay", which holds distinct build configuration, system configurations, collection of software packages, system services, disk image customizations etc. for that board.
+The Chromium OS project utilizes the Portage package management system from Gentoo Linux. Each board lives in its own "overlay", which holds distinct build configuration, system configurations, collection of software packages, system services, disk image customization etc. for that board.
 
 In our case here, we created a board named "rpi" and it refers to the Raspberry Pi computer. And we call the overlay "overlay-rpi" or "rpi", all its files are hosted in this repository.
 
@@ -284,7 +284,7 @@ The ```build_packages``` command throw out a lot of information on the console. 
 * White text: these are regular information that mostly are printed by the commands called in the build script. They provide more details about the build process thus are also useful for debugging.
 
 ### Read the logs
-Most time the ```build_packages``` command spends on is running the ```emerge``` commands, to build, install and pack those hundress of software packages required by the overlay. The ```emerge``` command is from the portage system of Gentoo Linux.
+Most time the ```build_packages``` command spends on is running the ```emerge``` commands, to build, install and pack those hundreds of software packages required by the overlay. The ```emerge``` command is from the portage system of Gentoo Linux.
 
 The ```emerge``` command saves the output of its building, installation and packing process into log files. These files are extremely useful if there is failure when building some package. Those log files are located under the ```/build/rpi/tmp/portage/logs``` directory of the chroot. They are plain text files so can be viewed by tools like ```less```, or ```more```, or editors such as ```vim```.
 
