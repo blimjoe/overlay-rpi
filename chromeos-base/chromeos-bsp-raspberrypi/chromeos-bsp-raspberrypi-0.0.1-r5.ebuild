@@ -12,8 +12,10 @@ SLOT="0"
 KEYWORDS="arm"
 IUSE=""
 
-DEPEND=""
-RDEPEND=""
+DEPEND="
+	chromeos-base/auto-expand-partition
+"
+RDEPEND="${DEPEND}"
 
 S=${WORKDIR}
 
