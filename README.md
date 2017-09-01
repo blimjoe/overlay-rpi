@@ -21,6 +21,7 @@
         - [Delete the chroot](#delete-the-chroot)
     - [Setup bind mount directories for chroot](#setup-bind-mount-directories-for-chroot)
     - [Enter the chroot](#enter-the-chroot)
+    - [Set password for the chronos user](#set-password-for-the-chronos-user)
     - [Setup Raspberry Pi board](#setup-raspberry-pi-board)
         - [Re-initialize the board](#re-initialize-the-board)
     - [Build packages](#build-packages)
@@ -235,6 +236,19 @@ And we can check whether above ```.local_mounts``` setup was done correctly. Not
 ```
 
 Move on if it works well. If not, check and make sure you set up ```.local_mounts``` correctly.
+
+## Set password for the chronos user
+The chronos user is used to log into the command line interface of Chromium OS, via SSH, local console or the shell in crosh interface. It is recommended that a password is set for this user so you can login as this user and also can do ```sudo``` in the Chromium OS command line, for advanced tasks.
+
+To set password for chronos user, run below command.
+
+```
+(cr) $ ./set_shared_user_password.sh
+```
+
+Type in a password when been prompted. If you would like to change the password, simply run the command again.
+
+The password is encrypted and saved in the file ```/etc/shared_user_passwd.txt``` in the chroot. You only need to set it once and it will be used for all the images you build, unless you re-create the chroot.
 
 ## Setup Raspberry Pi board
 In the Chromium OS terminology, a board refers to a class of computer platform with distinct hardware configurations. The board will be used as a target in the process of building software packages and disk image for that specific computer platform.
